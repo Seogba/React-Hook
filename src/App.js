@@ -2,37 +2,23 @@ import logo from './logo.svg';
 import './App.css';
 import { useState , useEffect } from 'react';
 
-const content = [
-  {
-    tab:"Section 1",
-    content:"I'm Section 1"
-  },
-  { 
-      tab:"Section 2",
-      content:"I'm Section 2"
+const useTitle = (initialTitle) =>{
+  const [title, setTitle] = useState(initialTitle);
+  const updateTitle = () =>{
+    const htmlTitle = document.querySelector("title")
+    htmlTitle.innerText = title;
   }
-];
+  useEffect(updateTitle, [title]);
+  return setTitle;
+}
 
-const useTabs = (initialTab , allTabs) =>{
-  const [currentIndex, setCurrentIndex] = useState(initialTab);
-  if(!allTabs || !Array.isArray(allTabs)){
-    return;
-  } 
-  return {
-    currentItem: allTabs[currentIndex],
-    changeItem: setCurrentIndex
-  };
-
-};
 
 function App(){
-  const {currentItem, changeItem} = useTabs(0,content);
+ const titleUpdater = useTitle("Loading,,,")
+ setTimeout(() => titleUpdater("Home") , 5000);
   return(
     <div className = "App">
-    {content.map((section,index) => (
-      <button onClick={()=> changeItem(index)}>{section.tab}</button>
-    ))}
-    <div>{currentItem.content}</div>
+    
     </div>
   )
 }
